@@ -8,6 +8,7 @@ import observer.NationalParkObserver;
 import org.openstreetmap.gui.jmapviewer.*;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
+import view.util.ColorPalette;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,16 +17,6 @@ import java.util.List;
 
 public class NationalParkMap extends JFrame implements NationalParkObserver {
 
-    private static class ColorPalette {
-        static final Color BACKGROUND_DARK_BLUE = new Color(30, 42, 68);
-        static final Color TEXT_WHITE_SOFT = new Color(230, 240, 250);
-        static final Color BUTTON_KRUSKAL_BLUE = new Color(77, 168, 218);
-        static final Color BUTTON_STATIONS_PURPLE = new Color(142, 68, 173);
-        static final Color TEXT_WHITE = Color.WHITE;
-        static final Color TRAIL_LOW_IMPACT = new Color(106, 191, 75);
-        static final Color TRAIL_MEDIUM_IMPACT = new Color(212, 184, 60);
-        static final Color TRAIL_HIGH_IMPACT = new Color(230, 57, 70);
-    }
 
     private JMapViewer mapViewer;
     private JLabel timeLabel;
@@ -50,7 +41,7 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         setPreferredSize(new Dimension(1000, 800));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout(15, 15));
-        getContentPane().setBackground(ColorPalette.BACKGROUND_DARK_BLUE);
+        getContentPane().setBackground(ColorPalette.BACKGROUND_DARK_BLUE.getColor());
         mapViewer = createMap();
 
         add(createTitleLabel("Parque Nacional Nahuel Huapi"), BorderLayout.NORTH);
@@ -72,9 +63,9 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
     private JLabel createTitleLabel(String title) {
         JLabel titleLabel = new JLabel(title, SwingConstants.CENTER);
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 26));
-        titleLabel.setForeground(ColorPalette.TEXT_WHITE_SOFT);
+        titleLabel.setForeground(ColorPalette.TEXT_WHITE_SOFT.getColor());
         titleLabel.setOpaque(true);
-        titleLabel.setBackground(ColorPalette.BACKGROUND_DARK_BLUE);
+        titleLabel.setBackground(ColorPalette.BACKGROUND_DARK_BLUE.getColor());
         titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
         return titleLabel;
     }
@@ -82,7 +73,7 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
     private JButton createCustomButton(String title, Color backgroundColor, ActionListener actionListener) {
         JButton button = new JButton(title);
         button.setBackground(backgroundColor);
-        button.setForeground(ColorPalette.TEXT_WHITE);
+        button.setForeground(ColorPalette.TEXT_WHITE.getColor());
         button.setFont(new Font("Arial", Font.PLAIN, 14));
         button.addActionListener(actionListener);
         return button;
@@ -90,23 +81,29 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
 
     private JPanel createButtonPanel() {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 5));
-        buttonPanel.setBackground(ColorPalette.BACKGROUND_DARK_BLUE);
+        buttonPanel.setBackground(ColorPalette.BACKGROUND_DARK_BLUE.getColor());
 
         buttonPanel.add(createCustomButton(
-                "Ver Todas las Estaciones",
-                ColorPalette.BUTTON_STATIONS_PURPLE,
-                e -> showAllStations()
+                "Listar Todas las Estaciones",
+                ColorPalette.BUTTON_STATIONS_PURPLE.getColor(),
+                e -> getAllStations()
+        ));
+
+        buttonPanel.add(createCustomButton(
+                "Dibujar Todas las Estaciones",
+                ColorPalette.BUTTON_STATIONS_PURPLE.getColor(),
+                e -> nationalParkController.reDrawOrginalPark(baseNationalParkGraph)
         ));
 
         buttonPanel.add(createCustomButton(
                 "Calcular AGM (Kruskal)",
-                ColorPalette.BUTTON_KRUSKAL_BLUE,
+                ColorPalette.BUTTON_KRUSKAL_BLUE.getColor(),
                 e -> nationalParkController.generateMinimumSpanningTree(krustalNationalParkGraph)
         ));
 
         buttonPanel.add(createCustomButton(
                 "Calcular AGM (Prim)",
-                ColorPalette.BUTTON_KRUSKAL_BLUE,
+                ColorPalette.BUTTON_KRUSKAL_BLUE.getColor(),
                 e -> nationalParkController.generateMinimumSpanningTree(primNationalParkGraph)
         ));
 
@@ -116,20 +113,20 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
     private JPanel createTimePanel() {
         timeLabel = new JLabel("Tiempo:");
         timeLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        timeLabel.setForeground(ColorPalette.TEXT_WHITE);
+        timeLabel.setForeground(ColorPalette.TEXT_WHITE.getColor());
         timeLabel.setOpaque(true);
-        timeLabel.setBackground(ColorPalette.BACKGROUND_DARK_BLUE);
+        timeLabel.setBackground(ColorPalette.BACKGROUND_DARK_BLUE.getColor());
         timeLabel.setPreferredSize(new Dimension(200, 30));
 
         JPanel timePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        timePanel.setBackground(ColorPalette.BACKGROUND_DARK_BLUE);
+        timePanel.setBackground(ColorPalette.BACKGROUND_DARK_BLUE.getColor());
         timePanel.add(timeLabel);
         return timePanel;
     }
 
     private JPanel createBottomPanel() {
         JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setBackground(ColorPalette.BACKGROUND_DARK_BLUE);
+        bottomPanel.setBackground(ColorPalette.BACKGROUND_DARK_BLUE.getColor());
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         bottomPanel.add(createButtonPanel(), BorderLayout.CENTER);
@@ -138,10 +135,10 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
     }
 
     public void updateExecutionTime(long duration) {
-        timeLabel.setText("Tiempo: " + duration + " ns");
+        timeLabel.setText("Tiempo: " + duration + " ms");
     }
 
-    private void showAllStations() {
+    private void getAllStations() {
         StringBuilder message = new StringBuilder("Estaciones:\n");
         for (Station station : baseNationalParkGraph.getStations()) {
             message.append(station.getName())
@@ -191,9 +188,9 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
     }
 
     private Color getColorForImpact(int impact) {
-        if (impact <= 3) return ColorPalette.TRAIL_LOW_IMPACT;
-        else if (impact <= 6) return ColorPalette.TRAIL_MEDIUM_IMPACT;
-        else return ColorPalette.TRAIL_HIGH_IMPACT;
+        if (impact <= 3) return ColorPalette.TRAIL_LOW_IMPACT.getColor();
+        else if (impact <= 6) return ColorPalette.TRAIL_MEDIUM_IMPACT.getColor();
+        else return ColorPalette.TRAIL_HIGH_IMPACT.getColor();
     }
 
     private void centerMap(NationalParkGraph graph) {

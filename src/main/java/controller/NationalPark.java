@@ -11,5 +11,9 @@ public class NationalPark {
         public void generateMinimumSpanningTree(NationalParkGraph graph){
             graph.calculateMinimumSpanningTree();
         }
- }
+
+        public void reDrawOrginalPark(NationalParkGraph graph) {
+                 graph.notifyObservers();
+        }
+}
 
