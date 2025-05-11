@@ -1,6 +1,6 @@
 package model;
 
-import model.utils.UnionFind;
+import model.util.UnionFind;
 import observer.NationalParkObserver;
 
 import java.util.ArrayList;

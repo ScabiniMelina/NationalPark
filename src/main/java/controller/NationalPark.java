@@ -14,5 +14,10 @@ import model.NationalParkGraph;
             model.calculateMinimumSpanningTree();
         }
 
-    }
+
+     public NationalParkGraph getGraph() {
+         return model;
+     }
+
+ }
 

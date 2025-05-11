@@ -2,10 +2,9 @@ import controller.NationalPark;
 import model.NationalParkGraph;
 import model.Station;
 import model.Trail;
-import util.JsonReader;
-import view.NationalParkView;
+import model.util.JsonReader;
+import view.NationalParkMap;
 
-import javax.swing.SwingUtilities;
 import java.util.List;
 
 public class Main {
