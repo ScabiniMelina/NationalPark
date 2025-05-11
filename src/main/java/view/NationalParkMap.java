@@ -4,6 +4,7 @@ import controller.NationalPark;
 import model.NationalParkGraph;
 import model.Station;
 import model.Trail;
+import observer.NationalParkObserver;
 import org.openstreetmap.gui.jmapviewer.*;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
@@ -13,17 +14,17 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NationalParkMap extends JFrame {
+public class NationalParkMap extends JFrame implements NationalParkObserver {
 
     private final JMapViewer mapViewer;
-    private List<Station> stations;
-    private List<Trail> trails;
     private JLabel timeLabel;
 
     private NationalPark nationalParkController;
+    private NationalParkGraph nationalParkGraph;
 
-    public NationalParkMap(NationalPark nationalParkController) {
+    public NationalParkMap(NationalPark nationalParkController, NationalParkGraph nationalParkGraph) {
         this.nationalParkController = nationalParkController;
+        this.nationalParkGraph = nationalParkGraph;
 
         setTitle("Senderos - Mapa del Parque Nacional Nahuel Huapi");
         setSize(1200, 800);
@@ -109,7 +110,7 @@ public class NationalParkMap extends JFrame {
 
     private void showAllStations() {
         StringBuilder message = new StringBuilder("Estaciones:\n");
-        for (Station station : stations) {
+        for (Station station : nationalParkGraph.getStations()) {
             message.append(station.getName())
                     .append(" (ID: ").append(station.getId())
                     .append(", Coordenadas: ").append(station.getX())
@@ -193,11 +194,14 @@ public class NationalParkMap extends JFrame {
 
         mapViewer.setDisplayPosition(new Coordinate(avgLat, avgLon), 11);
     }
-    public void updateTrails(List<Trail> newTrails) {
-        this.trails.clear();
-        this.trails.addAll(newTrails);
+    public void updateTrails() {
         drawStations();
         drawTrails();
         repaint();
+    }
+
+    @Override
+    public void onModelChanged() {
+        updateTrails();
     }
 }

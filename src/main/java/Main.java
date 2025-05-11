@@ -25,8 +25,7 @@ public class Main {
             NationalParkGraph nationalParkModel = new NationalParkGraph(stations, trails);
             NationalPark nationalParkController = new NationalPark(nationalParkModel);
 
-            NationalParkMap nationalParkMap = new NationalParkMap(nationalParkController);
+            NationalParkMap nationalParkMap = new NationalParkMap(nationalParkController, nationalParkModel);
             nationalParkMap.setVisible(true);
-
     }
 }
