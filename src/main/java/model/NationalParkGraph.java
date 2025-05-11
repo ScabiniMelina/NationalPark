@@ -49,4 +49,8 @@ public class NationalParkGraph {
     public long getExecutionTimeInNanoseconds() {
         throw new IllegalArgumentException("Excecution time is not provided for this type of graph");
     }
+
+    public int getTotalImpact() {
+        throw new IllegalArgumentException("Total Impact is not provided for this type of graph");
+    }
 }

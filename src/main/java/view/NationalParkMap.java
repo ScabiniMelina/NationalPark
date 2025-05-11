@@ -20,6 +20,7 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
 
     private JMapViewer mapViewer;
     private JLabel timeLabel;
+    private JLabel impactLabel;
     private final NationalPark nationalParkController;
     private final NationalParkGraph baseNationalParkGraph;
     private final NationalParkGraph krustalNationalParkGraph;
@@ -51,6 +52,7 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         drawStations(baseNationalParkGraph);
         drawTrails(baseNationalParkGraph);
         centerMap(baseNationalParkGraph);
+        ;
     }
     private JMapViewer createMap (){
         System.setProperty("http.agent", "Mozilla/5.0");
@@ -123,6 +125,19 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         timePanel.add(timeLabel);
         return timePanel;
     }
+    private JPanel createImpactPanel() {
+        impactLabel = new JLabel("Total impact:");
+        impactLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        impactLabel.setForeground(ColorPalette.TEXT_WHITE.getColor());
+        impactLabel.setOpaque(true);
+        impactLabel.setBackground(ColorPalette.BACKGROUND_DARK_BLUE.getColor());
+        impactLabel.setPreferredSize(new Dimension(200, 30));
+
+        JPanel impactPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        impactPanel.setBackground(ColorPalette.BACKGROUND_DARK_BLUE.getColor());
+        impactPanel.add(impactLabel);
+        return impactPanel;
+    }
 
     private JPanel createBottomPanel() {
         JPanel bottomPanel = new JPanel(new BorderLayout());
@@ -130,12 +145,26 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         bottomPanel.add(createButtonPanel(), BorderLayout.CENTER);
-        bottomPanel.add(createTimePanel(), BorderLayout.EAST);
+
+        JPanel eastPanel = new JPanel();
+        eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
+        eastPanel.setOpaque(false);
+        eastPanel.add(createTimePanel());
+        eastPanel.add(Box.createVerticalStrut(10));
+        eastPanel.add(createImpactPanel());
+
+        bottomPanel.add(eastPanel, BorderLayout.EAST);
+
         return bottomPanel;
     }
 
     public void updateExecutionTime(long duration) {
         timeLabel.setText("Tiempo: " + duration + " ms");
+    }
+
+    private void getAllStations() {
+    public void updateTotalImpact(int totalImpact) {
+        impactLabel.setText("Total Impact: " + totalImpact);
     }
 
     private void getAllStations() {
@@ -210,6 +239,7 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
 
     public void updateTrails(NationalParkGraph graph) {
         updateExecutionTime(graph.getExecutionTimeInNanoseconds());
+        updateTotalImpact(graph.getTotalImpact());
         drawStations(graph);
         drawTrails(graph);
         repaint();
