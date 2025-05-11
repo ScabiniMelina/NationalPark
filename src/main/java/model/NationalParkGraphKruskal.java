@@ -8,6 +8,7 @@ import java.util.List;
 public class NationalParkGraphKruskal extends NationalParkGraph {
     List<Trail> treeTrails;
     long executionTimeInNanoseconds;
+    int totalImpact;
 
     public NationalParkGraphKruskal(List<Station> stations, List<Trail> trails) {
         super(stations, trails);
@@ -20,12 +21,22 @@ public class NationalParkGraphKruskal extends NationalParkGraph {
     }
 
     @Override
+    public List<Trail> getTrails() {
+        return this.treeTrails;
+    }
+
+    @Override
+    public int getTotalImpact(){
+        return totalImpact;
+    }
+
+    @Override
     public void calculateMinimumSpanningTree() {
         long startTime = System.nanoTime();
 
         treeTrails.clear();
 
-        UnionFind<Station> unionFind = new UnionFind();
+        UnionFind<Station> unionFind = new UnionFind<>();
         for (Station s : stations) {
             unionFind.add(s);
         }
@@ -41,8 +52,8 @@ public class NationalParkGraphKruskal extends NationalParkGraph {
         }
         long endTime = System.nanoTime();
         executionTimeInNanoseconds = endTime - startTime;
+        fillTotalImpact();
         super.notifyObservers();
-
     }
 
     private Trail getMinimunTrail(UnionFind uf) {
@@ -62,9 +73,10 @@ public class NationalParkGraphKruskal extends NationalParkGraph {
         return minTrail;
     }
 
-
-    @Override
-    public List<Trail> getTrails() {
-        return this.treeTrails;
+    private void fillTotalImpact(){
+        totalImpact = 0;
+        for (Trail trail: treeTrails){
+            totalImpact += trail.getEnvironmentalImpact();
+        }
     }
 }
