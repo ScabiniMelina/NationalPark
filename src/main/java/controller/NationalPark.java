@@ -5,6 +5,7 @@ import model.NationalParkGraph;
 import model.Station;
 import model.Trail;
 import util.JsonReader;
+import view.NationalParkMap;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.List;
 
  public class NationalPark {
         private NationalParkGraph model;
-        private view.NationalPark view;
+        private NationalParkMap view;
 
         public NationalPark() throws IOException {
 
@@ -20,7 +21,7 @@ import java.util.List;
             List<Trail> trails = JsonReader.readTrailsFromJson("nationalParkStations.json", stations);
 
             model = new NationalParkGraph(stations, trails);
-            view = new view.NationalPark(stations, trails);
+            view = new NationalParkMap(stations, trails);
         }
 
         public void showView() {
