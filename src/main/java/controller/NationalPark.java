@@ -20,8 +20,6 @@ import java.util.List;
             List<Trail> trails = JsonReader.readTrailsFromJson("nationalParkStations.json", stations);
 
             model = new NationalParkGraph(stations, trails);
-
-            // Inicializar la vista
             view = new view.NationalPark(stations, trails);
         }
 

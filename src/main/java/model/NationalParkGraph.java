@@ -20,9 +20,9 @@ public class NationalParkGraph {
         return trails;
     }
 
-    // Opcional: Método para calcular el MST (implementar con Prim o Kruskal)
+    // Opcional: Método para calcular el (implementar con Prim o Kruskal)
     public List<Trail> calculateMinimumSpanningTree() {
-        // TODO: Implementar algoritmo MST (por ejemplo, Kruskal)
+        // TODO: Implementar algoritmo
         // Por ahora, devuelve todos los senderos
         return new ArrayList<>(trails);
     }

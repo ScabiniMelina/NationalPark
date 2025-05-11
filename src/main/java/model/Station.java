@@ -7,6 +7,9 @@ public class Station {
     private double y;
 
     public Station(int id, String name, double x, double y) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("The station name cannot be null or empty");
+        }
         this.id = id;
         this.name = name;
         this.x = x;
