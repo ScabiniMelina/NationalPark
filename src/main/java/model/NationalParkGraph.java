@@ -47,7 +47,7 @@ public class NationalParkGraph {
         throw new IllegalArgumentException("Calculate MST is not provided for this type of graph");
     }
 
-    public long getExecutionTimeInMiliseconds() {
+    public long getExecutionTimeInNanoseconds() {
         throw new IllegalArgumentException("Excecution time is not provided for this type of graph");
     }
 }

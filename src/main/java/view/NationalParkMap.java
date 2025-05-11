@@ -138,7 +138,7 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
     }
 
     public void updateExecutionTime(long duration) {
-        timeLabel.setText("Tiempo: " + duration + " ms");
+        timeLabel.setText("Tiempo: " + duration + " ns");
     }
 
     private void showAllStations() {
@@ -212,7 +212,7 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
     }
 
     public void updateTrails(NationalParkGraph graph) {
-        updateExecutionTime(graph.getExecutionTimeInMiliseconds());
+        updateExecutionTime(graph.getExecutionTimeInNanoseconds());
         drawStations(graph);
         drawTrails(graph);
         repaint();

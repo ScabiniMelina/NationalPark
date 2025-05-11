@@ -4,34 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NationalParkGraphPrim extends NationalParkGraph {
-    List<Station> treeStations;
     List<Trail> treeTrails;
-    long executionTimeInMiliseconds;
+    long executionTimeInNanoseconds;
 
 
     public NationalParkGraphPrim(List<Station> stations, List<Trail> trails) {
         super(stations, trails);
-        this.treeStations = new ArrayList<>();
         this.treeTrails = new ArrayList<>();
     }
+
     @Override
-    public long getExecutionTimeInMiliseconds() {
-        return executionTimeInMiliseconds;
+    public long getExecutionTimeInNanoseconds() {
+        return executionTimeInNanoseconds;
     }
 
     @Override
     public void calculateMinimumSpanningTree() {
         long startTime = System.nanoTime();
-        treeStations.clear();
+        List<Station> treeStations = new ArrayList<>();
         treeTrails.clear();
 
         treeStations.add(stations.getFirst());
         int stationsSize = stations.size();
         for (int i = 1; i <= stationsSize-1; i++){
-            Trail minTrail = getMinimumTrail();
+            Trail minTrail = getMinimumTrail(treeStations);
             if (minTrail == null) break;
             treeTrails.add(minTrail);
-
             if (!treeStations.contains(minTrail.getStart())) {
                 treeStations.add(minTrail.getStart());
             } else {
@@ -39,16 +37,16 @@ public class NationalParkGraphPrim extends NationalParkGraph {
             }
         }
         long endTime = System.nanoTime();
-        executionTimeInMiliseconds = (endTime - startTime) / 1000000;
+        executionTimeInNanoseconds = endTime - startTime;
         super.notifyObservers();
 
     }
 
-    private Trail getMinimumTrail() {
+    private Trail getMinimumTrail(List<Station> treeStations) {
         Trail minTrail = null;
         for (Station station: treeStations){
             for (Trail trail: trails){
-                boolean connectsToTree = validateConnection(trail, station);
+                boolean connectsToTree = validateConnection(treeStations, trail, station);
                 if (connectsToTree) {
                     if (minTrail == null || trail.getEnvironmentalImpact() < minTrail.getEnvironmentalImpact()) {
                         minTrail = trail;
@@ -60,7 +58,7 @@ public class NationalParkGraphPrim extends NationalParkGraph {
         return minTrail;
     }
 
-    private boolean validateConnection(Trail trail, Station station){
+    private boolean validateConnection(List<Station> treeStations, Trail trail, Station station){
         return ((trail.getStart().equals(station) && !treeStations.contains(trail.getEnd())) ||
                 (trail.getEnd().equals(station) && !treeStations.contains(trail.getStart())));
     }
@@ -68,10 +66,5 @@ public class NationalParkGraphPrim extends NationalParkGraph {
     @Override
     public List<Trail> getTrails(){
         return this.treeTrails;
-    }
-
-    @Override
-    public List<Station> getStations(){
-        return this.treeStations;
     }
 }
