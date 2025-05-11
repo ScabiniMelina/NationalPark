@@ -1,5 +1,7 @@
 package observer;
 
+import model.NationalParkGraph;
+
 public interface NationalParkObserver {
-        void onModelChanged();
+        void onModelChanged(NationalParkGraph graph);
 }

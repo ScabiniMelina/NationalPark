@@ -3,21 +3,13 @@ package controller;
 
 import model.NationalParkGraph;
 
- public class NationalPark {
-        private NationalParkGraph model;
+public class NationalPark {
 
-         public NationalPark(NationalParkGraph nationalParkGraph) {
-             this.model = nationalParkGraph;
+         public NationalPark() {
          }
 
-        public void generateMinimumSpanningTree(){
-            model.calculateMinimumSpanningTree();
+        public void generateMinimumSpanningTree(NationalParkGraph graph){
+            graph.calculateMinimumSpanningTree();
         }
-
-
-     public NationalParkGraph getGraph() {
-         return model;
-     }
-
  }
 

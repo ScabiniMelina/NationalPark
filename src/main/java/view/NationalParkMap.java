@@ -30,11 +30,20 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
     private JMapViewer mapViewer;
     private JLabel timeLabel;
     private final NationalPark nationalParkController;
-    private final NationalParkGraph nationalParkGraph;
+    private final NationalParkGraph baseNationalParkGraph;
+    private final NationalParkGraph krustalNationalParkGraph;
+    private final NationalParkGraph primNationalParkGraph;
 
-    public NationalParkMap(NationalPark nationalParkController, NationalParkGraph nationalParkGraph) {
+    public NationalParkMap(
+            NationalPark nationalParkController,
+            NationalParkGraph baseNationalParkGraph,
+            NationalParkGraph krustalNationalParkGraph,
+            NationalParkGraph primNationalParkGraph
+    ) {
         this.nationalParkController = nationalParkController;
-        this.nationalParkGraph = nationalParkGraph;
+        this.baseNationalParkGraph = baseNationalParkGraph;
+        this.krustalNationalParkGraph = krustalNationalParkGraph;
+        this.primNationalParkGraph = primNationalParkGraph;
 
         setTitle("Senderos - Mapa del Parque Nacional Nahuel Huapi");
         setSize(1200, 800);
@@ -48,9 +57,9 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         add(mapViewer,BorderLayout.CENTER);
         add(createBottomPanel(), BorderLayout.SOUTH);
 
-        drawStations();
-        drawTrails();
-        centerMap();
+        drawStations(baseNationalParkGraph);
+        drawTrails(baseNationalParkGraph);
+        centerMap(baseNationalParkGraph);
     }
     private JMapViewer createMap (){
         System.setProperty("http.agent", "Mozilla/5.0");
@@ -92,13 +101,13 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         buttonPanel.add(createCustomButton(
                 "Calcular AGM (Kruskal)",
                 ColorPalette.BUTTON_KRUSKAL_BLUE,
-                e -> nationalParkController.generateMinimumSpanningTree()
+                e -> nationalParkController.generateMinimumSpanningTree(krustalNationalParkGraph)
         ));
 
         buttonPanel.add(createCustomButton(
                 "Calcular AGM (Prim)",
                 ColorPalette.BUTTON_KRUSKAL_BLUE,
-                e -> nationalParkController.generateMinimumSpanningTree()
+                e -> nationalParkController.generateMinimumSpanningTree(primNationalParkGraph)
         ));
 
         return buttonPanel;
@@ -134,7 +143,7 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
 
     private void showAllStations() {
         StringBuilder message = new StringBuilder("Estaciones:\n");
-        for (Station station : nationalParkGraph.getStations()) {
+        for (Station station : baseNationalParkGraph.getStations()) {
             message.append(station.getName())
                     .append(" (ID: ").append(station.getId())
                     .append(", Coordenadas: ").append(station.getX())
@@ -143,8 +152,7 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         JOptionPane.showMessageDialog(this, message.toString(), "Lista de Estaciones", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private void drawStations() {
-        NationalParkGraph graph = nationalParkController.getGraph();
+    private void drawStations(NationalParkGraph graph) {
         for (Station station : graph.getStations()) {
             Coordinate coordinate = new Coordinate(station.getX(), station.getY());
             MapMarker marker = new MapMarkerDot(station.getName(), coordinate);
@@ -152,8 +160,7 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         }
     }
 
-    private void drawTrails() {
-        NationalParkGraph graph = nationalParkController.getGraph();
+    private void drawTrails(NationalParkGraph graph) {
         List<Station> stations = graph.getStations();
         System.out.println("Número de estaciones en stationMap: " + stations.size());
 
@@ -189,8 +196,7 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         else return ColorPalette.TRAIL_HIGH_IMPACT;
     }
 
-    private void centerMap() {
-        NationalParkGraph graph = nationalParkController.getGraph();
+    private void centerMap(NationalParkGraph graph) {
         java.util.List<Station> stations = graph.getStations();
         if (stations.size() == 0) return;
 
@@ -205,14 +211,14 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         mapViewer.setDisplayPosition(new Coordinate(avgLat, avgLon), 11);
     }
 
-    public void updateTrails() {
-        drawStations();
-        drawTrails();
+    public void updateTrails(NationalParkGraph graph) {
+        drawStations(graph);
+        drawTrails(graph);
         repaint();
     }
 
     @Override
-    public void onModelChanged() {
-        updateTrails();
+    public void onModelChanged(NationalParkGraph graph) {
+        updateTrails(graph);
     }
 }

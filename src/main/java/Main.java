@@ -1,7 +1,5 @@
 import controller.NationalPark;
-import model.NationalParkGraph;
-import model.Station;
-import model.Trail;
+import model.*;
 import model.util.JsonReader;
 import view.NationalParkMap;
 
@@ -17,10 +15,24 @@ public class Main {
             stations = JsonReader.readStationsFromJson("nationalParkStations.json");
             trails = JsonReader.readTrailsFromJson("nationalParkStations.json", stations);
 
-            NationalParkGraph nationalParkModel = new NationalParkGraph(stations, trails);
-            NationalPark nationalParkController = new NationalPark(nationalParkModel);
+            NationalParkGraph baseNationalParkModel = new NationalParkGraph(stations, trails);
+            NationalParkGraph kruskalNationalParkModel = new NationalParkGraphKruskal(stations,trails);
+            NationalParkGraph primNationalParkModel = new NationalParkGraphPrim(stations,trails);
 
-            NationalParkMap nationalParkMap = new NationalParkMap(nationalParkController, nationalParkModel);
+
+
+            NationalPark nationalParkController = new NationalPark();
+
+            NationalParkMap nationalParkMap = new NationalParkMap(
+                    nationalParkController,
+                    baseNationalParkModel,
+                    kruskalNationalParkModel,
+                    primNationalParkModel
+            );
+
             nationalParkMap.setVisible(true);
+            baseNationalParkModel.addObserver(nationalParkMap);
+            kruskalNationalParkModel.addObserver(nationalParkMap);
+            primNationalParkModel.addObserver(nationalParkMap);
     }
 }
