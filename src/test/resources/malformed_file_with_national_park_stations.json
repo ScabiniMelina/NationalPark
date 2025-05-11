@@ -1,0 +1,20 @@
+{
+  "stations": [
+    {
+      "id": 1,
+      "name": Refugio Frey,  // Unquoted string
+      "x": -41.1833,
+      "y": -71.4167
+    },
+    {
+      "id": 2,
+      "name": "Refugio Jakob",
+      "x": -41.2000,
+      "y": -71.4667
+    }
+  ],
+  "trails": [
+    {"startId": 1, "endId": 3, "environmentalImpact": 3},
+    {"startId": 1, "endId": 2, "environmentalImpact": 5}
+  ]
+}

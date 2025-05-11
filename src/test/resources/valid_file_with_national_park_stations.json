@@ -1,0 +1,111 @@
+{
+  "stations": [
+    {
+      "id": 1,
+      "name": "Refugio Frey",
+      "x": -41.1833,
+      "y": -71.4167
+    },
+    {
+      "id": 2,
+      "name": "Refugio Jakob",
+      "x": -41.2000,
+      "y": -71.4667
+    },
+    {
+      "id": 3,
+      "name": "Cerro Catedral Base",
+      "x": -41.1667,
+      "y": -71.4333
+    },
+    {
+      "id": 4,
+      "name": "Lago Gutiérrez",
+      "x": -41.1833,
+      "y": -71.3833
+    },
+    {
+      "id": 5,
+      "name": "Mirador Llao Llao",
+      "x": -41.1333,
+      "y": -71.5333
+    },
+    {
+      "id": 6,
+      "name": "Refugio López",
+      "x": -41.2167,
+      "y": -71.4667
+    },
+    {
+      "id": 7,
+      "name": "Cerro Campanario",
+      "x": -41.1500,
+      "y": -71.4833
+    },
+    {
+      "id": 8,
+      "name": "Puerto Pañuelo",
+      "x": -41.1333,
+      "y": -71.5167
+    },
+    {
+      "id": 9,
+      "name": "Cascada Los Alerces",
+      "x": -41.1667,
+      "y": -71.5667
+    },
+    {
+      "id": 10,
+      "name": "Refugio Italia Manfredo Segre",
+      "x": -41.2333,
+      "y": -71.4333
+    },
+    {
+      "id": 11,
+      "name": "Lago Mascardi",
+      "x": -41.3333,
+      "y": -71.5833
+    },
+    {
+      "id": 12,
+      "name": "Cerro Otto",
+      "x": -41.1333,
+      "y": -71.3833
+    },
+    {
+      "id": 13,
+      "name": "Villa Tacul",
+      "x": -41.1167,
+      "y": -71.5167
+    },
+    {
+      "id": 14,
+      "name": "Pampa Linda",
+      "x": -41.2667,
+      "y": -71.6667
+    },
+    {
+      "id": 15,
+      "name": "Isla Victoria",
+      "x": -40.9500,
+      "y": -71.5333
+    }
+  ],
+  "trails": [
+    {"startId": 1, "endId": 3, "environmentalImpact": 3},
+    {"startId": 1, "endId": 2, "environmentalImpact": 5},
+    {"startId": 3, "endId": 4, "environmentalImpact": 2},
+    {"startId": 4, "endId": 5, "environmentalImpact": 4},
+    {"startId": 5, "endId": 8, "environmentalImpact": 1},
+    {"startId": 6, "endId": 7, "environmentalImpact": 6},
+    {"startId": 7, "endId": 8, "environmentalImpact": 3},
+    {"startId": 8, "endId": 9, "environmentalImpact": 2},
+    {"startId": 9, "endId": 5, "environmentalImpact": 4},
+    {"startId": 10, "endId": 6, "environmentalImpact": 7},
+    {"startId": 11, "endId": 14, "environmentalImpact": 8},
+    {"startId": 12, "endId": 4, "environmentalImpact": 3},
+    {"startId": 13, "endId": 5, "environmentalImpact": 2},
+    {"startId": 14, "endId": 10, "environmentalImpact": 9},
+    {"startId": 15, "endId": 8, "environmentalImpact": 5}
+  ]
+}
