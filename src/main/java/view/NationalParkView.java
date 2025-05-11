@@ -1,5 +1,7 @@
 package view;
 
+import controller.NationalPark;
+import model.NationalParkGraph;
 import model.Station;
 import model.Trail;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
@@ -7,29 +9,19 @@ import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
-import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
-/*
-import org.openstreetmap.gui.jmapviewer.*;
-import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
-import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
-import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
-*/
+
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
-public class NationalPark extends JFrame {
+public class NationalParkView extends JFrame {
 
     private final JMapViewer mapViewer;
-    private final List<Station> stations;
-    private final List<Trail> trails;
+    private NationalPark nationalParkController;
 
-    public NationalPark(List<Station> stations, List<Trail> trails) {
-        this.stations = stations;
-        this.trails = trails;
-
+    public NationalParkView(NationalPark nationalParkController) {
+        this.nationalParkController = nationalParkController;
         setTitle("Senderos - Mapa del Parque Nacional Nahuel Huapi");
         setSize(800, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -53,7 +45,8 @@ public class NationalPark extends JFrame {
     }
 
     private void drawStations() {
-        for (Station station : stations) {
+        NationalParkGraph graph = nationalParkController.getGraph();
+        for (Station station : graph.getStations()) {
             Coordinate coordinate = new Coordinate(station.getX(), station.getY());
             MapMarker marker = new MapMarkerDot(station.getName(), coordinate);
             mapViewer.addMapMarker(marker);
@@ -61,18 +54,17 @@ public class NationalPark extends JFrame {
     }
 
     private void drawTrails() {
-        java.util.Map<Integer, Station> stationMap = new java.util.HashMap<>();
-        for (Station station : stations) {
-            stationMap.put(station.getId(), station);
-        }
-        System.out.println("Número de estaciones en stationMap: " + stationMap.size());
+        NationalParkGraph graph = nationalParkController.getGraph();
+        List<Station> stations = graph.getStations();
+        List<Trail> trails = graph.getTrails();
+        System.out.println("Número de estaciones en stationMap: " + stations.size());
         System.out.println("Número de senderos a dibujar: " + trails.size());
 
         mapViewer.removeAllMapPolygons(); // Limpiar polígonos previos
         int drawnTrails = 0;
         for (Trail trail : trails) {
-            Station start = stationMap.get(trail.getStart().getId());
-            Station end = stationMap.get(trail.getEnd().getId());
+            Station start = graph.getStationById(trail.getStart().getId());
+            Station end = graph.getStationById(trail.getEnd().getId());
             if (start != null && end != null) {
                 // Crear coordenadas para el polígono (inicio, intermedio, fin)
                 Coordinate startCoord = new Coordinate(start.getX(), start.getY());
@@ -114,6 +106,8 @@ public class NationalPark extends JFrame {
     }
 
     private void centerMap() {
+        NationalParkGraph graph = nationalParkController.getGraph();
+        List<Station> stations = graph.getStations();
         if (stations.isEmpty()) return;
 
         // Calcular el centro promedio de las coordenadas
