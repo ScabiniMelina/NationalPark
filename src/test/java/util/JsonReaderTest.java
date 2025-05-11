@@ -1,3 +1,4 @@
+package util;
 
 import model.Station;
 import model.Trail;
@@ -5,12 +6,14 @@ import model.Trail;
 import com.google.gson.JsonParseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import util.JsonReader;
 
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class JsonReaderTest {
 
@@ -20,7 +23,6 @@ public class JsonReaderTest {
 
     @BeforeEach
     void setUp() {
-
         invalidFilePath = "non_existent.json";
         validFilePath = "valid_file_with_national_park_stations.json";
         malformedJsonFilePath = "malformed_file_with_national_park_stations.json";

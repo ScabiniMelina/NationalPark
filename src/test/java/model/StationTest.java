@@ -1,10 +1,7 @@
-package Model;
+package model;
 
-import model.Station;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class StationTest {
 
@@ -15,7 +12,7 @@ public class StationTest {
 
         // Verify that the getters return the correct values as strings
         assertEquals(1, station.getId(), "The ID should be 1");
-        assertEquals("Refugio Frey", station.getName(),"The name should be 'Refugio Frey'");
+        assertEquals("Refugio Frey", station.getName(), "The name should be 'Refugio Frey'");
         assertEquals(-41.1833, station.getX(), "The x coordinate (latitude) should be - 41.1833");
         assertEquals( -71.4167, station.getY(), "The Y coordinate (longitude) should be -71.4167");
     }

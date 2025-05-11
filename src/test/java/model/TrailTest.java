@@ -1,7 +1,7 @@
 package model;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TrailTest {
 
@@ -13,9 +13,9 @@ public class TrailTest {
         Trail trail = new Trail(start, end, 3);
 
         // Verify that the getters return the correct values
-        assertEquals("The start station should be Station A", start, trail.getStart());
-        assertEquals("The end station should be Station B", end, trail.getEnd());
-        assertEquals("The environmental impact should be 3", 3, trail.getEnvironmentalImpact());
+        assertEquals(start, trail.getStart(), "The start station should be Station A");
+        assertEquals(end, trail.getEnd(), "The end station should be Station B");
+        assertEquals(3, trail.getEnvironmentalImpact(), "The environmental impact should be 3");
     }
 
     @Test
@@ -24,7 +24,7 @@ public class TrailTest {
         Station end = new Station(2, "Station B", 1.0, 1.0);
         Trail trail = new Trail(start, end, 10);
 
-        assertEquals("The environmental impact should be 10", 10, trail.getEnvironmentalImpact());
+        assertEquals(10, trail.getEnvironmentalImpact(), "The environmental impact should be 10");
     }
 
     @Test(expected = IllegalArgumentException.class)
