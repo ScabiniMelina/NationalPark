@@ -3,7 +3,6 @@ import model.NationalParkGraph;
 import model.Station;
 import model.Trail;
 import util.JsonReader;
-import view.NationalParkMap;
 import view.NationalParkView;
 
 import javax.swing.SwingUtilities;
