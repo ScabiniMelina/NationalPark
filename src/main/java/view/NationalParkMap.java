@@ -30,6 +30,7 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
     private JMapViewer mapViewer;
     private JLabel timeLabel;
     private final NationalPark nationalParkController;
+    private final NationalParkGraph nationalParkGraph;
 
     public NationalParkMap(NationalPark nationalParkController, NationalParkGraph nationalParkGraph) {
         this.nationalParkController = nationalParkController;
@@ -131,10 +132,8 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
     }
 
     private void showAllStations() {
-        NationalParkGraph graph = nationalParkController.getGraph();
         StringBuilder message = new StringBuilder("Estaciones:\n");
         for (Station station : nationalParkGraph.getStations()) {
-        for (Station station : graph.getStations()) {
             message.append(station.getName())
                     .append(" (ID: ").append(station.getId())
                     .append(", Coordenadas: ").append(station.getX())
@@ -205,10 +204,6 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         mapViewer.setDisplayPosition(new Coordinate(avgLat, avgLon), 11);
     }
 
-    public void updateTrails(java.util.List <Trail> newTrails) {
-        NationalParkGraph graph = nationalParkController.getGraph();
-        graph.getTrails().clear();
-        //graph.getTrails().addAll(newTrails);
     public void updateTrails() {
         drawStations();
         drawTrails();
