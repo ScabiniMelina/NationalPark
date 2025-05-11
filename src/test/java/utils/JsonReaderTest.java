@@ -4,6 +4,7 @@ import model.Station;
 import model.Trail;
 
 import com.google.gson.JsonParseException;
+import model.util.JsonReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

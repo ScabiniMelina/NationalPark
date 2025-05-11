@@ -2,13 +2,14 @@ import controller.NationalPark;
 import model.NationalParkGraph;
 import model.Station;
 import model.Trail;
-import utils.JsonReader;
-import view.NationalParkView;
+import model.util.JsonReader;
+import view.NationalParkMap;
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+
             List<Station> stations;
             List<Trail> trails;
             try {
@@ -24,8 +25,8 @@ public class Main {
             NationalParkGraph nationalParkModel = new NationalParkGraph(stations, trails);
             NationalPark nationalParkController = new NationalPark(nationalParkModel);
 
-            NationalParkView nationalParkView = new NationalParkView(nationalParkModel, nationalParkController);
-            nationalParkView.setVisible(true);
+            NationalParkMap nationalParkMap = new NationalParkMap(nationalParkController);
+            nationalParkMap.setVisible(true);
 
     }
 }
