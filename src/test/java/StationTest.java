@@ -14,10 +14,10 @@ public class StationTest {
         Station station = new Station(1, "Refugio Frey", -41.1833, -71.4167);
 
         // Verify that the getters return the correct values as strings
-        assertEquals(1, station.getId(), "The ID should be '1' as a string");
+        assertEquals(1, station.getId(), "The ID should be 1");
         assertEquals("Refugio Frey", station.getName(),"The name should be 'Refugio Frey'");
-        assertEquals("The X coordinate (latitude) should be '-41.1833' as a string", "-41.1833", String.valueOf(station.getX()));
-        assertEquals("The Y coordinate (longitude) should be '-71.4167' as a string", "-71.4167", String.valueOf(station.getY()));
+        assertEquals(-41.1833, station.getX(), "The x coordinate (latitude) should be - 41.1833");
+        assertEquals( -71.4167, station.getY(), "The Y coordinate (longitude) should be -71.4167");
     }
 
     @Test(expected = IllegalArgumentException.class)
