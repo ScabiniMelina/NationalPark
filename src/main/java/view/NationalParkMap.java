@@ -43,6 +43,7 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         setLayout(new BorderLayout(15, 15));
         getContentPane().setBackground(ColorPalette.BACKGROUND_DARK_BLUE);
         mapViewer = createMap();
+
         add(createTitleLabel("Parque Nacional Nahuel Huapi"), BorderLayout.NORTH);
         add(mapViewer,BorderLayout.CENTER);
         add(createBottomPanel(), BorderLayout.SOUTH);

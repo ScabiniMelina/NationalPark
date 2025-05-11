@@ -5,23 +5,18 @@ import model.Trail;
 import model.util.JsonReader;
 import view.NationalParkMap;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
             List<Station> stations;
             List<Trail> trails;
-            try {
-                stations = JsonReader.readStationsFromJson("nationalParkStations.json");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                trails = JsonReader.readTrailsFromJson("nationalParkStations.json", stations);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+
+            stations = JsonReader.readStationsFromJson("nationalParkStations.json");
+            trails = JsonReader.readTrailsFromJson("nationalParkStations.json", stations);
+
             NationalParkGraph nationalParkModel = new NationalParkGraph(stations, trails);
             NationalPark nationalParkController = new NationalPark(nationalParkModel);
 
