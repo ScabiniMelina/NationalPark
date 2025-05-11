@@ -5,17 +5,10 @@ import java.util.List;
 
 public class NationalParkGraphPrim extends NationalParkGraph {
     List<Trail> treeTrails;
-    long executionTimeInNanoseconds;
-    int totalImpact;
 
     public NationalParkGraphPrim(List<Station> stations, List<Trail> trails) {
         super(stations, trails);
         this.treeTrails = new ArrayList<>();
-    }
-
-    @Override
-    public int getTotalImpact(){
-        return totalImpact;
     }
 
     @Override
@@ -48,7 +41,7 @@ public class NationalParkGraphPrim extends NationalParkGraph {
         }
         long endTime = System.nanoTime();
         executionTimeInNanoseconds = endTime - startTime;
-        fillTotalImpact();
+        calculateTotalImpact();
         super.notifyObservers();
 
     }
@@ -74,10 +67,17 @@ public class NationalParkGraphPrim extends NationalParkGraph {
                 (trail.getEnd().equals(station) && !treeStations.contains(trail.getStart())));
     }
 
-    private void fillTotalImpact(){
-        totalImpact = 0;
-        for (Trail trail: treeTrails){
-            totalImpact += trail.getEnvironmentalImpact();
+    @Override
+    public void calculateTotalImpact() {
+        if (treeTrails == null || treeTrails.isEmpty()) {
+            totalImpact = 0;
+            return;
         }
+
+        int sum = 0;
+        for (Trail trail : treeTrails) {
+            sum += trail.getEnvironmentalImpact();
+        }
+        totalImpact =  sum;
     }
 }

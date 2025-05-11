@@ -7,8 +7,7 @@ import java.util.List;
 
 public class NationalParkGraphKruskal extends NationalParkGraph {
     List<Trail> treeTrails;
-    long executionTimeInNanoseconds;
-    int totalImpact;
+
 
     public NationalParkGraphKruskal(List<Station> stations, List<Trail> trails) {
         super(stations, trails);
@@ -52,7 +51,7 @@ public class NationalParkGraphKruskal extends NationalParkGraph {
         }
         long endTime = System.nanoTime();
         executionTimeInNanoseconds = endTime - startTime;
-        fillTotalImpact();
+        calculateTotalImpact();
         super.notifyObservers();
     }
 
@@ -73,10 +72,18 @@ public class NationalParkGraphKruskal extends NationalParkGraph {
         return minTrail;
     }
 
-    private void fillTotalImpact(){
-        totalImpact = 0;
-        for (Trail trail: treeTrails){
-            totalImpact += trail.getEnvironmentalImpact();
+    @Override
+    public void calculateTotalImpact() {
+        if (treeTrails == null || treeTrails.isEmpty()) {
+            totalImpact = 0;
+            return;
         }
+
+        int sum = 0;
+        for (Trail trail : treeTrails) {
+            sum += trail.getEnvironmentalImpact();
+        }
+        totalImpact = sum;
     }
+
 }

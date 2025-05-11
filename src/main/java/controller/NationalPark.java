@@ -13,7 +13,7 @@ public class NationalPark {
         }
 
         public void reDrawOrginalPark(NationalParkGraph graph) {
-                 graph.notifyObservers();
+             graph.notifyObservers();
         }
 }
 

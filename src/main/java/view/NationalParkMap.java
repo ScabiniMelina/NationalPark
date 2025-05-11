@@ -52,8 +52,54 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         drawStations(baseNationalParkGraph);
         drawTrails(baseNationalParkGraph);
         centerMap(baseNationalParkGraph);
-        ;
     }
+
+    private void drawTrails(NationalParkGraph graph) {
+        List<Station> stations = graph.getStations();
+        System.out.println("Número de estaciones en stationMap: " + stations.size());
+
+        mapViewer.removeAllMapPolygons();
+        int drawnTrails = 0;
+        for (Trail trail :  graph.getTrails()) {
+            Station start = graph.getStationById(trail.getStart().getId());
+            Station end = graph.getStationById(trail.getEnd().getId());
+            if (start != null && end != null) {
+                Coordinate startCoord = new Coordinate(start.getX(), start.getY());
+                Coordinate endCoord = new Coordinate(end.getX(), end.getY());
+                MapPolygonImpl trailLine = new MapPolygonImpl(startCoord, startCoord, endCoord);
+                trailLine.setColor(getColorForImpact(trail.getEnvironmentalImpact()));
+                trailLine.setBackColor(getColorForImpact(trail.getEnvironmentalImpact()));
+                trailLine.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                mapViewer.addMapPolygon(trailLine);
+                drawnTrails++;
+                System.out.println("Sendero dibujado: " + start.getName() + " -> " + end.getName() +
+                        ", Coordenadas: (" + startCoord.getLat() + "," + startCoord.getLon() + ") -> (" +
+                        endCoord.getLat() + "," + endCoord.getLon() + ")");
+            } else {
+                System.out.println("Sendero omitido: startId=" + (trail.getStart() != null ? trail.getStart().getId() : "null") +
+                        ", endId=" + (trail.getEnd() != null ? trail.getEnd().getId() : "null"));
+            }
+        }
+        System.out.println("Polígonos en el mapa: " + mapViewer.getMapPolygonList().size());
+        mapViewer.repaint();
+
+    }
+
+    private Color getColorForImpact(int environmentalImpact) {
+        if (environmentalImpact <= 3) return ColorPalette.TRAIL_LOW_IMPACT.getColor();
+        else if (environmentalImpact <= 6) return ColorPalette.TRAIL_MEDIUM_IMPACT.getColor();
+        else return ColorPalette.TRAIL_HIGH_IMPACT.getColor();
+
+    }
+
+    private void drawStations(NationalParkGraph graph) {
+        for (Station station : graph.getStations()) {
+            Coordinate coordinate = new Coordinate(station.getX(), station.getY());
+            MapMarker marker = new MapMarkerDot(station.getName(), coordinate);
+            mapViewer.addMapMarker(marker);
+        }
+    }
+
     private JMapViewer createMap (){
         System.setProperty("http.agent", "Mozilla/5.0");
         JMapViewer mapViewer = new JMapViewer();
@@ -162,7 +208,6 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         timeLabel.setText("Tiempo: " + duration + " ms");
     }
 
-    private void getAllStations() {
     public void updateTotalImpact(int totalImpact) {
         impactLabel.setText("Total Impact: " + totalImpact);
     }
@@ -178,49 +223,6 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         JOptionPane.showMessageDialog(this, message.toString(), "Lista de Estaciones", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private void drawStations(NationalParkGraph graph) {
-        for (Station station : graph.getStations()) {
-            Coordinate coordinate = new Coordinate(station.getX(), station.getY());
-            MapMarker marker = new MapMarkerDot(station.getName(), coordinate);
-            mapViewer.addMapMarker(marker);
-        }
-    }
-
-    private void drawTrails(NationalParkGraph graph) {
-        List<Station> stations = graph.getStations();
-        System.out.println("Número de estaciones en stationMap: " + stations.size());
-
-        mapViewer.removeAllMapPolygons();
-        int drawnTrails = 0;
-        for (Trail trail :  graph.getTrails()) {
-            Station start = graph.getStationById(trail.getStart().getId());
-            Station end = graph.getStationById(trail.getEnd().getId());
-            if (start != null && end != null) {
-                Coordinate startCoord = new Coordinate(start.getX(), start.getY());
-                Coordinate endCoord = new Coordinate(end.getX(), end.getY());
-                MapPolygonImpl trailLine = new MapPolygonImpl(startCoord, startCoord, endCoord);
-                trailLine.setColor(getColorForImpact(trail.getEnvironmentalImpact()));
-                trailLine.setBackColor(getColorForImpact(trail.getEnvironmentalImpact()));
-                trailLine.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-                mapViewer.addMapPolygon(trailLine);
-                drawnTrails++;
-                System.out.println("Sendero dibujado: " + start.getName() + " -> " + end.getName() +
-                        ", Coordenadas: (" + startCoord.getLat() + "," + startCoord.getLon() + ") -> (" +
-                        endCoord.getLat() + "," + endCoord.getLon() + ")");
-            } else {
-                System.out.println("Sendero omitido: startId=" + (trail.getStart() != null ? trail.getStart().getId() : "null") +
-                        ", endId=" + (trail.getEnd() != null ? trail.getEnd().getId() : "null"));
-            }
-        }
-        System.out.println("Polígonos en el mapa: " + mapViewer.getMapPolygonList().size());
-        mapViewer.repaint();
-    }
-
-    private Color getColorForImpact(int impact) {
-        if (impact <= 3) return ColorPalette.TRAIL_LOW_IMPACT.getColor();
-        else if (impact <= 6) return ColorPalette.TRAIL_MEDIUM_IMPACT.getColor();
-        else return ColorPalette.TRAIL_HIGH_IMPACT.getColor();
-    }
 
     private void centerMap(NationalParkGraph graph) {
         java.util.List<Station> stations = graph.getStations();
@@ -238,10 +240,10 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
     }
 
     public void updateTrails(NationalParkGraph graph) {
+        drawTrails(graph);
         updateExecutionTime(graph.getExecutionTimeInNanoseconds());
         updateTotalImpact(graph.getTotalImpact());
         drawStations(graph);
-        drawTrails(graph);
         repaint();
     }
 

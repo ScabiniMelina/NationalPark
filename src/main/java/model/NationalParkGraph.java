@@ -6,15 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NationalParkGraph {
+    long executionTimeInNanoseconds;
     protected List<Station> stations;
     protected List<Trail> trails;
+    int totalImpact;
     private List<NationalParkObserver> observers = new ArrayList<>();
+
 
 
     public NationalParkGraph(List<Station> stations, List<Trail> trails) {
         this.stations = new ArrayList<>(stations);
         this.trails = new ArrayList<>(trails);
+        calculateTotalImpact();
     }
+
     public void addObserver(NationalParkObserver observer) {
         observers.add(observer);
     }
@@ -47,10 +52,18 @@ public class NationalParkGraph {
     }
 
     public long getExecutionTimeInNanoseconds() {
-        throw new IllegalArgumentException("Excecution time is not provided for this type of graph");
+        return 0;
     }
 
     public int getTotalImpact() {
-        throw new IllegalArgumentException("Total Impact is not provided for this type of graph");
+        return totalImpact;
+    }
+
+    public void calculateTotalImpact() {
+        int sum = 0;
+        for (Trail trail : trails) {
+            sum += trail.getEnvironmentalImpact();
+        }
+        totalImpact =  sum;
     }
 }
