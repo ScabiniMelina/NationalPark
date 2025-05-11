@@ -20,6 +20,15 @@ public class NationalParkGraph {
         return trails;
     }
 
+    public Station getStationById(int id) {
+        for (Station s : this.stations) {
+            if (s.getId() == id) {
+                return s;
+            }
+        }
+        return null;
+    }
+
     // Opcional: Método para calcular el (implementar con Prim o Kruskal)
     public List<Trail> calculateMinimumSpanningTree() {
         // TODO: Implementar algoritmo

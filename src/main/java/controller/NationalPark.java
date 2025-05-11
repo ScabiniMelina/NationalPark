@@ -15,33 +15,20 @@ import java.util.List;
         private NationalParkGraph model;
         private NationalParkMap view;
 
-        public NationalPark() throws IOException {
+         public NationalPark(NationalParkGraph nationalParkGraph) {
+             this.model = nationalParkGraph;
+         }
 
-            List<Station> stations = JsonReader.readStationsFromJson("nationalParkStations.json");
-            List<Trail> trails = JsonReader.readTrailsFromJson("nationalParkStations.json", stations);
+         public NationalParkGraph getGraph() {
+             return model;
+         }
 
-            model = new NationalParkGraph(stations, trails);
-            view = new NationalParkMap(stations, trails);
-        }
-
-        public void showView() {
-            view.setVisible(true);
-        }
 
         // Opcional: Método para actualizar la vista con un MST
         public void showMinimumSpanningTree() {
             List<Trail> mstTrails = model.calculateMinimumSpanningTree(); // Implementar en Graph
-            view.updateTrails(mstTrails);
+            //view.updateTrails(mstTrails);
         }
 
-        public static void main(String[] args) {
-            try {
-                NationalPark controller = new NationalPark();
-                controller.showView();
-            } catch (IOException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Error al cargar los datos: " + e.getMessage());
-            }
-        }
     }
 

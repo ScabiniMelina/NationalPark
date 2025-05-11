@@ -1,5 +1,7 @@
 package view;
 
+import controller.NationalPark;
+import model.NationalParkGraph;
 import model.Station;
 import model.Trail;
 import org.openstreetmap.gui.jmapviewer.*;
@@ -16,12 +18,12 @@ public class NationalParkMap extends JFrame {
     private final JMapViewer mapViewer;
     private List<Station> stations;
     private List<Trail> trails;
-    private NationalParkMap controller;
     private JLabel timeLabel;
 
-    public NationalParkMap(List<Station> stations, List<Trail> trails) {
-        this.stations = stations;
-        this.trails = trails;
+    private NationalPark nationalParkController;
+
+    public NationalParkMap(NationalPark nationalParkController) {
+        this.nationalParkController = nationalParkController;
 
         setTitle("Senderos - Mapa del Parque Nacional Nahuel Huapi");
         setSize(1200, 800);
@@ -101,10 +103,6 @@ public class NationalParkMap extends JFrame {
         centerMap();
     }
 
-    public void setController(NationalParkMap controller) {
-        this.controller = controller;
-    }
-
     public void updateExecutionTime(long duration) {
         timeLabel.setText("Tiempo: " + duration + " ms");
     }
@@ -121,8 +119,8 @@ public class NationalParkMap extends JFrame {
     }
 
     private void drawStations() {
-        mapViewer.removeAllMapMarkers();
-        for (Station station : stations) {
+        NationalParkGraph graph = nationalParkController.getGraph();
+        for (Station station : graph.getStations()) {
             Coordinate coordinate = new Coordinate(station.getX(), station.getY());
             MapMarker marker = new MapMarkerDot(station.getName(), coordinate);
             mapViewer.addMapMarker(marker);
@@ -130,21 +128,26 @@ public class NationalParkMap extends JFrame {
     }
 
     private void drawTrails() {
-        java.util.Map<Integer, Station> stationMap = new java.util.HashMap<>();
-        for (Station station : stations) {
-            stationMap.put(station.getId(), station);
-        }
-        System.out.println("Número de estaciones en stationMap: " + stationMap.size());
+        NationalParkGraph graph = nationalParkController.getGraph();
+        List<Station> stations = graph.getStations();
+        List<Trail> trails = graph.getTrails();
+        System.out.println("Número de estaciones en stationMap: " + stations.size());
         System.out.println("Número de senderos a dibujar: " + trails.size());
 
-        mapViewer.removeAllMapPolygons();
+        mapViewer.removeAllMapPolygons(); // Limpiar polígonos previos
         int drawnTrails = 0;
         for (Trail trail : trails) {
-            Station start = stationMap.get(trail.getStart().getId());
-            Station end = stationMap.get(trail.getEnd().getId());
+            Station start = graph.getStationById(trail.getStart().getId());
+            Station end = graph.getStationById(trail.getEnd().getId());
             if (start != null && end != null) {
+                // Crear coordenadas para el polígono (inicio, intermedio, fin)
                 Coordinate startCoord = new Coordinate(start.getX(), start.getY());
+                Coordinate midCoord = new Coordinate(
+                        (start.getX() + end.getX()) / 2,
+                        (start.getY() + end.getY()) / 2
+                );
                 Coordinate endCoord = new Coordinate(end.getX(), end.getY());
+                // Crear MapPolygonImpl con tres puntos
                 MapPolygonImpl trailLine = new MapPolygonImpl(
                         startCoord,
                         startCoord,
@@ -157,6 +160,7 @@ public class NationalParkMap extends JFrame {
                 drawnTrails++;
                 System.out.println("Sendero dibujado: " + start.getName() + " -> " + end.getName() +
                         ", Coordenadas: (" + startCoord.getLat() + "," + startCoord.getLon() + ") -> (" +
+                        midCoord.getLat() + "," + midCoord.getLon() + ") -> (" +
                         endCoord.getLat() + "," + endCoord.getLon() + ")");
             } else {
                 System.out.println("Sendero omitido: startId=" + (trail.getStart() != null ? trail.getStart().getId() : "null") +
@@ -175,6 +179,8 @@ public class NationalParkMap extends JFrame {
     }
 
     private void centerMap() {
+        NationalParkGraph graph = nationalParkController.getGraph();
+        List<Station> stations = graph.getStations();
         if (stations.isEmpty()) return;
 
         double avgLat = 0, avgLon = 0;
@@ -187,7 +193,6 @@ public class NationalParkMap extends JFrame {
 
         mapViewer.setDisplayPosition(new Coordinate(avgLat, avgLon), 11);
     }
-
     public void updateTrails(List<Trail> newTrails) {
         this.trails.clear();
         this.trails.addAll(newTrails);
