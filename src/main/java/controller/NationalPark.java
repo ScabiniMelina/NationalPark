@@ -12,8 +12,8 @@ import model.NationalParkGraph;
             this.model = nationalParkGraph;
         }
 
-        public NationalParkGraph getGraph(){
-            return model;
+        public void generateMinimumSpanningTree(){
+            model.calculateMinimumSpanningTree();
         }
 
     }

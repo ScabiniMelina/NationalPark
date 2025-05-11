@@ -4,6 +4,7 @@ import controller.NationalPark;
 import model.NationalParkGraph;
 import model.Station;
 import model.Trail;
+import observer.NationalParkObserver;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
@@ -15,13 +16,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class NationalParkView extends JFrame {
+public class NationalParkView extends JFrame implements NationalParkObserver {
 
     private final JMapViewer mapViewer;
-    private NationalPark nationalParkController;
+    private NationalParkGraph graph;
+    private NationalPark controller; //TODO: Usarlo para llamar a generateMinimumSpanningTree() cuando se hace click
 
-    public NationalParkView(NationalPark nationalParkController) {
-        this.nationalParkController = nationalParkController;
+    public NationalParkView(NationalParkGraph graph, NationalPark controller) {
+        this.graph = graph;
+        this.graph.addObserver(this);
+        this.controller = controller;
+
         setTitle("Senderos - Mapa del Parque Nacional Nahuel Huapi");
         setSize(800, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -45,7 +50,6 @@ public class NationalParkView extends JFrame {
     }
 
     private void drawStations() {
-        NationalParkGraph graph = nationalParkController.getGraph();
         for (Station station : graph.getStations()) {
             Coordinate coordinate = new Coordinate(station.getX(), station.getY());
             MapMarker marker = new MapMarkerDot(station.getName(), coordinate);
@@ -54,7 +58,6 @@ public class NationalParkView extends JFrame {
     }
 
     private void drawTrails() {
-        NationalParkGraph graph = nationalParkController.getGraph();
         List<Station> stations = graph.getStations();
         List<Trail> trails = graph.getTrails();
         System.out.println("Número de estaciones en stationMap: " + stations.size());
@@ -106,7 +109,6 @@ public class NationalParkView extends JFrame {
     }
 
     private void centerMap() {
-        NationalParkGraph graph = nationalParkController.getGraph();
         List<Station> stations = graph.getStations();
         if (stations.isEmpty()) return;
 
@@ -123,8 +125,8 @@ public class NationalParkView extends JFrame {
         mapViewer.setDisplayPosition(new Coordinate(avgLat, avgLon), 11);
     }
 
-    // Método para actualizar la vista (por ejemplo, para mostrar un MST)
-    public void updateTrails(List<Trail> newTrails) {
+    @Override
+    public void onModelChanged() {
         //mapViewer.removeAllMapPolygons(); // Limpiar senderos existentes
         drawStations(); // Redibujar estaciones
         //this.trails.clear();
