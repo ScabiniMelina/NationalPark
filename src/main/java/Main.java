@@ -19,8 +19,6 @@ public class Main {
             NationalParkGraph kruskalNationalParkModel = new NationalParkGraphKruskal(stations,trails);
             NationalParkGraph primNationalParkModel = new NationalParkGraphPrim(stations,trails);
 
-
-
             NationalPark nationalParkController = new NationalPark();
 
             NationalParkMap nationalParkMap = new NationalParkMap(
