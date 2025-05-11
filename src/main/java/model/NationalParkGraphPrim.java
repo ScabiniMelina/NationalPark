@@ -6,6 +6,7 @@ import java.util.List;
 public class NationalParkGraphPrim extends NationalParkGraph {
     List<Station> treeStations;
     List<Trail> treeTrails;
+    long executionTimeInMiliseconds;
 
 
     public NationalParkGraphPrim(List<Station> stations, List<Trail> trails) {
@@ -13,9 +14,14 @@ public class NationalParkGraphPrim extends NationalParkGraph {
         this.treeStations = new ArrayList<>();
         this.treeTrails = new ArrayList<>();
     }
+    @Override
+    public long getExecutionTimeInMiliseconds() {
+        return executionTimeInMiliseconds;
+    }
 
     @Override
     public void calculateMinimumSpanningTree() {
+        long startTime = System.nanoTime();
         treeStations.clear();
         treeTrails.clear();
 
@@ -32,7 +38,10 @@ public class NationalParkGraphPrim extends NationalParkGraph {
                 treeStations.add(minTrail.getEnd());
             }
         }
+        long endTime = System.nanoTime();
+        executionTimeInMiliseconds = (endTime - startTime) / 1000000;
         super.notifyObservers();
+
     }
 
     private Trail getMinimumTrail() {
@@ -54,7 +63,6 @@ public class NationalParkGraphPrim extends NationalParkGraph {
     private boolean validateConnection(Trail trail, Station station){
         return ((trail.getStart().equals(station) && !treeStations.contains(trail.getEnd())) ||
                 (trail.getEnd().equals(station) && !treeStations.contains(trail.getStart())));
-
     }
 
     @Override

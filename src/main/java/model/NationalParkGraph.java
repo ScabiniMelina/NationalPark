@@ -46,4 +46,8 @@ public class NationalParkGraph {
     public void calculateMinimumSpanningTree() {
         throw new IllegalArgumentException("Calculate MST is not provided for this type of graph");
     }
+
+    public long getExecutionTimeInMiliseconds() {
+        throw new IllegalArgumentException("Excecution time is not provided for this type of graph");
+    }
 }

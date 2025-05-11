@@ -212,6 +212,7 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
     }
 
     public void updateTrails(NationalParkGraph graph) {
+        updateExecutionTime(graph.getExecutionTimeInMiliseconds());
         drawStations(graph);
         drawTrails(graph);
         repaint();
