@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NationalParkGraph {
-    long executionTimeInNanoseconds;
+    long executionTimeInNanoseconds; //TODO: ESTA BIEN QUE ESTO ESTE ACA? DELEGACION?
     protected List<Station> stations;
     protected List<Trail> trails;
     int totalImpact;
@@ -15,13 +15,21 @@ public class NationalParkGraph {
 
 
     public NationalParkGraph(List<Station> stations, List<Trail> trails) {
+        if (stations == null ) {
+            throw new IllegalArgumentException("Stations cannot be null");
+        }
+        if (trails == null ) {
+            throw new IllegalArgumentException("Trails cannot be null");
+        }
         this.stations = new ArrayList<>(stations);
         this.trails = new ArrayList<>(trails);
         calculateTotalImpact();
     }
 
     public void addObserver(NationalParkObserver observer) {
-        observers.add(observer);
+        if (observer != null) {
+            observers.add(observer);
+        }
     }
 
     public void notifyObservers() {

@@ -34,14 +34,14 @@ public class JsonReaderTest {
     void testReadStationsSuccess() throws IOException {
         List<Station> stations = JsonReader.readStationsFromJson(validFilePath);
 
-        assertEquals(15, stations.size(), "Should load 15 stations");
+        assertEquals(18, stations.size(), "Should load 18 stations");
 
         // Verify the first station
         Station station1 = stations.get(0);
         assertEquals(1, station1.getId(), "Station 1 ID should be 1");
         assertEquals("Refugio Frey", station1.getName(), "Station 1 name should be Refugio Frey");
-        assertEquals(-41.1833, station1.getX(), 0.0001, "Station 1 x coordinate should be -41.1833");
-        assertEquals(-71.4167, station1.getY(), 0.0001, "Station 1 y coordinate should be -71.4167");
+        assertEquals(-41.198265, station1.getX(), 0.0001, "Station 1 x coordinate should be -41.198265");
+        assertEquals(-71.488643, station1.getY(), 0.0001, "Station 1 y coordinate should be -71.488643");
 
     }
 
@@ -66,13 +66,13 @@ public class JsonReaderTest {
         List<Station> stations = JsonReader.readStationsFromJson(validFilePath);
         List<Trail> trails = JsonReader.readTrailsFromJson(validFilePath, stations);
 
-        assertEquals(15, trails.size(), "Should load 15 trails");
+        assertEquals(40, trails.size(), "Should load 15 trails");
 
 
         Trail trail1 = trails.get(0);
         assertEquals("Refugio Frey", trail1.getStart().getName(), "Trail 1 start should be Refugio Frey");
         assertEquals("Cerro Catedral Base", trail1.getEnd().getName(), "Trail 1 end should be Cerro Catedral Base");
-        assertEquals(3, trail1.getEnvironmentalImpact(), "Trail 1 environmental impact should be 3");
+        assertEquals(7, trail1.getEnvironmentalImpact(), "Trail 1 environmental impact should be 7");
 
     }
 

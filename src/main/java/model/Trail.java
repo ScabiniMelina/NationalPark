@@ -7,7 +7,7 @@ public class Trail {
 
     public Trail(Station start, Station end, int environmentalImpact) {
         if (start == null || end == null) {
-            throw new IllegalArgumentException("Start and end stations cannot be null");
+            throw new IllegalArgumentException("Start or end stations cannot be null");
         }
         if (environmentalImpact < 1 || environmentalImpact > 10) {
             throw new IllegalArgumentException("Environmental impact must be between 1 and 10");

@@ -3,109 +3,152 @@
     {
       "id": 1,
       "name": "Refugio Frey",
-      "x": -41.1833,
-      "y": -71.4167
+      "x": -41.198265,
+      "y": -71.488643
     },
     {
       "id": 2,
       "name": "Refugio Jakob",
-      "x": -41.2000,
-      "y": -71.4667
+      "x": -41.186733,
+      "y": -71.560967
     },
     {
       "id": 3,
       "name": "Cerro Catedral Base",
-      "x": -41.1667,
-      "y": -71.4333
+      "x": -41.172694,
+      "y": -71.436946
     },
     {
       "id": 4,
       "name": "Lago Gutiérrez",
-      "x": -41.1833,
-      "y": -71.3833
+      "x": -41.175751,
+      "y": -71.390488
     },
     {
       "id": 5,
       "name": "Mirador Llao Llao",
-      "x": -41.1333,
-      "y": -71.5333
+      "x": -41.0625,
+      "y": -71.538611
     },
     {
       "id": 6,
       "name": "Refugio López",
-      "x": -41.2167,
-      "y": -71.4667
+      "x": -41.099167,
+      "y": -71.579722
     },
     {
       "id": 7,
       "name": "Cerro Campanario",
-      "x": -41.1500,
-      "y": -71.4833
+      "x": -41.075450,
+      "y": -71.476920
     },
     {
       "id": 8,
       "name": "Puerto Pañuelo",
-      "x": -41.1333,
-      "y": -71.5167
+      "x": -41.057778,
+      "y": -71.531111
     },
     {
       "id": 9,
       "name": "Cascada Los Alerces",
-      "x": -41.1667,
-      "y": -71.5667
+      "x": -41.22,
+      "y": -71.44
     },
     {
       "id": 10,
       "name": "Refugio Italia Manfredo Segre",
-      "x": -41.2333,
-      "y": -71.4333
-    },
-    {
-      "id": 11,
-      "name": "Lago Mascardi",
-      "x": -41.3333,
-      "y": -71.5833
+      "x": -41.13598990877878,
+      "y": -71.57738696179563
     },
     {
       "id": 12,
       "name": "Cerro Otto",
-      "x": -41.1333,
-      "y": -71.3833
+      "x": -41.144800,
+      "y": -71.375800
     },
     {
       "id": 13,
       "name": "Villa Tacul",
-      "x": -41.1167,
-      "y": -71.5167
-    },
-    {
-      "id": 14,
-      "name": "Pampa Linda",
-      "x": -41.2667,
-      "y": -71.6667
+      "x": -41.048333,
+      "y": -71.561111
     },
     {
       "id": 15,
       "name": "Isla Victoria",
-      "x": -40.9500,
-      "y": -71.5333
+      "x": -40.953100,
+      "y": -71.538100
+    },
+    {
+      "id": 16,
+      "name": "Playa Bonita",
+      "x": -41.12135378071873,
+      "y": -71.39785724730623
+    },
+    {
+      "id": 17,
+      "name": "Circuito Chico",
+      "x": -41.062500,
+      "y": -71.538611
+    },
+    {
+      "id": 18,
+      "name": "Colonia Suiza",
+      "x": -41.094850,
+      "y": -71.506250
+    },
+    {
+      "id": 19,
+      "name": "Bahía López",
+      "x": -41.07283562431947,
+      "y": -71.56852519229557
+    },
+    {
+      "id": 20,
+      "name": "Piedras Blancas",
+      "x": -41.171850,
+      "y": -71.451950
     }
   ],
   "trails": [
-    {"startId": 1, "endId": 3, "environmentalImpact": 3},
-    {"startId": 1, "endId": 2, "environmentalImpact": 5},
-    {"startId": 3, "endId": 4, "environmentalImpact": 2},
-    {"startId": 4, "endId": 5, "environmentalImpact": 4},
-    {"startId": 5, "endId": 8, "environmentalImpact": 1},
-    {"startId": 6, "endId": 7, "environmentalImpact": 6},
+    {"startId": 1, "endId": 3, "environmentalImpact": 7},
+    {"startId": 1, "endId": 2, "environmentalImpact": 4},
+    {"startId": 1, "endId": 20, "environmentalImpact": 9},
+    {"startId": 2, "endId": 6, "environmentalImpact": 2},
+    {"startId": 3, "endId": 4, "environmentalImpact": 5},
+    {"startId": 3, "endId": 20, "environmentalImpact": 8},
+    {"startId": 4, "endId": 5, "environmentalImpact": 3},
+    {"startId": 4, "endId": 12, "environmentalImpact": 6},
+    {"startId": 4, "endId": 18, "environmentalImpact": 1},
+    {"startId": 5, "endId": 8, "environmentalImpact": 10},
+    {"startId": 5, "endId": 9, "environmentalImpact": 4},
+    {"startId": 5, "endId": 13, "environmentalImpact": 7},
+    {"startId": 5, "endId": 16, "environmentalImpact": 2},
+    {"startId": 6, "endId": 7, "environmentalImpact": 9},
+    {"startId": 6, "endId": 10, "environmentalImpact": 5},
     {"startId": 7, "endId": 8, "environmentalImpact": 3},
-    {"startId": 8, "endId": 9, "environmentalImpact": 2},
-    {"startId": 9, "endId": 5, "environmentalImpact": 4},
-    {"startId": 10, "endId": 6, "environmentalImpact": 7},
-    {"startId": 11, "endId": 14, "environmentalImpact": 8},
-    {"startId": 12, "endId": 4, "environmentalImpact": 3},
-    {"startId": 13, "endId": 5, "environmentalImpact": 2},
-    {"startId": 14, "endId": 10, "environmentalImpact": 9},
-    {"startId": 15, "endId": 8, "environmentalImpact": 5}
+    {"startId": 7, "endId": 17, "environmentalImpact": 8},
+    {"startId": 7, "endId": 18, "environmentalImpact": 6},
+    {"startId": 8, "endId": 9, "environmentalImpact": 1},
+    {"startId": 8, "endId": 15, "environmentalImpact": 4},
+    {"startId": 8, "endId": 16, "environmentalImpact": 7},
+    {"startId": 9, "endId": 19, "environmentalImpact": 2},
+    {"startId": 12, "endId": 13, "environmentalImpact": 5},
+    {"startId": 12, "endId": 20, "environmentalImpact": 8},
+    {"startId": 13, "endId": 17, "environmentalImpact": 3},
+    {"startId": 16, "endId": 17, "environmentalImpact": 6},
+    {"startId": 16, "endId": 19, "environmentalImpact": 9},
+    {"startId": 17, "endId": 19, "environmentalImpact": 4},
+    {"startId": 18, "endId": 20, "environmentalImpact": 7},
+    {"startId": 19, "endId": 20, "environmentalImpact": 2},
+    {"startId": 1, "endId": 10, "environmentalImpact": 5},
+    {"startId": 2, "endId": 10, "environmentalImpact": 8},
+    {"startId": 3, "endId": 7, "environmentalImpact": 3},
+    {"startId": 4, "endId": 20, "environmentalImpact": 6},
+    {"startId": 5, "endId": 17, "environmentalImpact": 9},
+    {"startId": 7, "endId": 19, "environmentalImpact": 4},
+    {"startId": 8, "endId": 13, "environmentalImpact": 7},
+    {"startId": 9, "endId": 16, "environmentalImpact": 2},
+    {"startId": 13, "endId": 16, "environmentalImpact": 5},
+    {"startId": 17, "endId": 18, "environmentalImpact": 8}
   ]
 }
