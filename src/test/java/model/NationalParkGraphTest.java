@@ -69,4 +69,24 @@ class NationalParkGraphTest {
         //Then
         assertEquals( 0L, executionTime, "The execution time should be 0");
     }
+
+    @Test
+    void shouldThrowExceptionWhenGraphIsNotConnected() {
+        // Given
+        Station a = new Station(1, "A", 1, 2);
+        Station b = new Station(2, "B", 2, 3);
+        Station c = new Station(3, "C", 3, 4);
+
+        Trail ab = new Trail(a, b, 1);
+
+        List<Station> stations = List.of(a, b, c);
+        List<Trail> trails = List.of(ab);
+
+        // When & Then
+        RuntimeException exception = assertThrows(
+                RuntimeException.class,
+                () -> { new NationalParkGraph(stations, trails);}
+        );
+        assertEquals("The graph is not connected. Minimum spanning tree cannot be fully constructed.", exception.getMessage());
+    }
 }
