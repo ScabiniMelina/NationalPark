@@ -1,20 +1,14 @@
 package model;
 
-
 import model.util.JsonReader;
-import observer.NationalParkObserver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class NationalParkGraphTest {
 
@@ -33,13 +27,21 @@ class NationalParkGraphTest {
 
     @Test
     void testGetStationByIdFound() {
-        Station found = graph.getStationById(1);
+        //Given
+        int id = 1;
+
+        //When
+        Station found = graph.getStationById(id);
+
+        //Then
         assertEquals("Refugio Frey", found.getName());
     }
 
     @Test
     void testCalculateTotalImpact() {
+        //When
         NationalParkGraph graph = new NationalParkGraph(stations, trails);
+        //Then
         assertEquals(214, graph.getTotalImpact());
     }
 
@@ -60,5 +62,11 @@ class NationalParkGraphTest {
         assertEquals("Trails cannot be null", exception.getMessage());
     }
 
-
+    @Test
+    void testGetExecutionTimeInNanoseconds(){
+        //When
+        long executionTime = graph.getExecutionTimeInNanoseconds();
+        //Then
+        assertEquals( 0L, executionTime, "The execution time should be 0");
+    }
 }

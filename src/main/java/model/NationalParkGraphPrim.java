@@ -12,11 +12,6 @@ public class NationalParkGraphPrim extends NationalParkGraph {
     }
 
     @Override
-    public long getExecutionTimeInNanoseconds() {
-        return executionTimeInNanoseconds;
-    }
-
-    @Override
     public List<Trail> getTrails(){
         return this.treeTrails;
     }

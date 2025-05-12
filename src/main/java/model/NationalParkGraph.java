@@ -6,13 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NationalParkGraph {
-    long executionTimeInNanoseconds; //TODO: ESTA BIEN QUE ESTO ESTE ACA? DELEGACION?
+    long executionTimeInNanoseconds = 0; //TODO: ESTA BIEN QUE ESTO ESTE ACA? DELEGACION?
     protected List<Station> stations;
     protected List<Trail> trails;
     int totalImpact;
     private List<NationalParkObserver> observers = new ArrayList<>();
-
-
 
     public NationalParkGraph(List<Station> stations, List<Trail> trails) {
         if (stations == null ) {
@@ -60,7 +58,7 @@ public class NationalParkGraph {
     }
 
     public long getExecutionTimeInNanoseconds() {
-        return 0;
+        return executionTimeInNanoseconds;
     }
 
     public int getTotalImpact() {
