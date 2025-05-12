@@ -16,10 +16,10 @@ import java.util.List;
 
 public class NationalParkMap extends JFrame implements NationalParkObserver {
 
-
     private JMapViewer mapViewer;
     private JLabel timeLabel;
     private JLabel impactLabel;
+    private JPanel panelLabel;
     private final NationalPark nationalParkController;
     private final NationalParkGraph baseNationalParkGraph;
     private final NationalParkGraph krustalNationalParkGraph;
@@ -42,10 +42,11 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout(15, 15));
         getContentPane().setBackground(ColorPalette.BACKGROUND_DARK_BLUE.getColor());
+
         mapViewer = createMap();
 
         add(createTitleLabel("Parque Nacional Nahuel Huapi"), BorderLayout.NORTH);
-        add(mapViewer,BorderLayout.CENTER);
+        add(mapViewer, BorderLayout.CENTER);
         add(createBottomPanel(), BorderLayout.SOUTH);
 
         drawStations(baseNationalParkGraph);
@@ -59,18 +60,22 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
 
         mapViewer.removeAllMapPolygons();
         int drawnTrails = 0;
-        for (Trail trail :  graph.getTrails()) {
+        for (Trail trail : graph.getTrails()) {
             Station start = graph.getStationById(trail.getStart().getId());
             Station end = graph.getStationById(trail.getEnd().getId());
+
             if (start != null && end != null) {
                 Coordinate startCoord = new Coordinate(start.getX(), start.getY());
                 Coordinate endCoord = new Coordinate(end.getX(), end.getY());
+
                 MapPolygonImpl trailLine = new MapPolygonImpl(startCoord, startCoord, endCoord);
                 trailLine.setColor(getColorForImpact(trail.getEnvironmentalImpact()));
                 trailLine.setBackColor(getColorForImpact(trail.getEnvironmentalImpact()));
                 trailLine.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+
                 mapViewer.addMapPolygon(trailLine);
                 drawnTrails++;
+
                 System.out.println("Sendero dibujado: " + start.getName() + " -> " + end.getName() +
                         ", Coordenadas: (" + startCoord.getLat() + "," + startCoord.getLon() + ") -> (" +
                         endCoord.getLat() + "," + endCoord.getLon() + ")");
@@ -79,16 +84,15 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
                         ", endId=" + (trail.getEnd() != null ? trail.getEnd().getId() : "null"));
             }
         }
+
         System.out.println("Polígonos en el mapa: " + mapViewer.getMapPolygonList().size());
         mapViewer.repaint();
-
     }
 
     private Color getColorForImpact(int environmentalImpact) {
         if (environmentalImpact <= 3) return ColorPalette.TRAIL_LOW_IMPACT.getColor();
         else if (environmentalImpact <= 6) return ColorPalette.TRAIL_MEDIUM_IMPACT.getColor();
         else return ColorPalette.TRAIL_HIGH_IMPACT.getColor();
-
     }
 
     private void drawStations(NationalParkGraph graph) {
@@ -99,13 +103,10 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         }
     }
 
-    private JMapViewer createMap (){
+    private JMapViewer createMap() {
         System.setProperty("http.agent", "Mozilla/5.0");
-        JMapViewer mapViewer = new JMapViewer();
-        add(mapViewer, BorderLayout.CENTER);
-        return mapViewer;
+        return new JMapViewer();
     }
-
 
     private JLabel createTitleLabel(String title) {
         JLabel titleLabel = new JLabel(title, SwingConstants.CENTER);
@@ -157,31 +158,14 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         return buttonPanel;
     }
 
-    private JPanel createTimePanel() {
-        timeLabel = new JLabel("Tiempo:");
-        timeLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        timeLabel.setForeground(ColorPalette.TEXT_WHITE.getColor());
-        timeLabel.setOpaque(true);
-        timeLabel.setBackground(ColorPalette.BACKGROUND_DARK_BLUE.getColor());
-        timeLabel.setPreferredSize(new Dimension(200, 30));
-
-        JPanel timePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        timePanel.setBackground(ColorPalette.BACKGROUND_DARK_BLUE.getColor());
-        timePanel.add(timeLabel);
-        return timePanel;
-    }
-    private JPanel createImpactPanel() {
-        impactLabel = new JLabel("Total impact:");
-        impactLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        impactLabel.setForeground(ColorPalette.TEXT_WHITE.getColor());
-        impactLabel.setOpaque(true);
-        impactLabel.setBackground(ColorPalette.BACKGROUND_DARK_BLUE.getColor());
-        impactLabel.setPreferredSize(new Dimension(200, 30));
-
-        JPanel impactPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        impactPanel.setBackground(ColorPalette.BACKGROUND_DARK_BLUE.getColor());
-        impactPanel.add(impactLabel);
-        return impactPanel;
+    private JLabel createLabelPanel(String labelText) {
+        JLabel label = new JLabel(labelText);
+        label.setFont(new Font("Arial", Font.PLAIN, 14));
+        label.setForeground(ColorPalette.TEXT_WHITE.getColor());
+        label.setOpaque(true);
+        label.setBackground(ColorPalette.BACKGROUND_DARK_BLUE.getColor());
+        label.setPreferredSize(new Dimension(200, 30));
+        return label;
     }
 
     private JPanel createBottomPanel() {
@@ -194,9 +178,13 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         JPanel eastPanel = new JPanel();
         eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
         eastPanel.setOpaque(false);
-        eastPanel.add(createTimePanel());
+
+        timeLabel = createLabelPanel("Tiempo:");
+        eastPanel.add(timeLabel);
         eastPanel.add(Box.createVerticalStrut(10));
-        eastPanel.add(createImpactPanel());
+
+        impactLabel = createLabelPanel("Total Impacto:");
+        eastPanel.add(impactLabel);
 
         bottomPanel.add(eastPanel, BorderLayout.EAST);
 
@@ -208,7 +196,7 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
     }
 
     public void updateTotalImpact(int totalImpact) {
-        impactLabel.setText("Total Impact: " + totalImpact);
+        impactLabel.setText("Total Impacto: " + totalImpact);
     }
 
     private void getAllStations() {
@@ -222,10 +210,9 @@ public class NationalParkMap extends JFrame implements NationalParkObserver {
         JOptionPane.showMessageDialog(this, message.toString(), "Lista de Estaciones", JOptionPane.INFORMATION_MESSAGE);
     }
 
-
     private void centerMap(NationalParkGraph graph) {
         java.util.List<Station> stations = graph.getStations();
-        if (stations.size() == 0) return;
+        if (stations.isEmpty()) return;
 
         double avgLat = 0, avgLon = 0;
         for (Station station : stations) {
