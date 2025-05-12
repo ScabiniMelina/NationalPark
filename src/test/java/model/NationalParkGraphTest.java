@@ -71,7 +71,7 @@ class NationalParkGraphTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenGraphIsNotConnected() {
+    void testShouldThrowExceptionWhenGraphIsNotConnected() {
         // Given
         Station a = new Station(1, "A", 1, 2);
         Station b = new Station(2, "B", 2, 3);
