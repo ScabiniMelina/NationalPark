@@ -8,15 +8,9 @@ import java.util.List;
 public class NationalParkGraphKruskal extends NationalParkGraph {
     List<Trail> treeTrails;
 
-
     public NationalParkGraphKruskal(List<Station> stations, List<Trail> trails) {
         super(stations, trails);
         this.treeTrails = new ArrayList<>();
-    }
-
-    @Override
-    public long getExecutionTimeInNanoseconds() {
-        return executionTimeInNanoseconds;
     }
 
     @Override

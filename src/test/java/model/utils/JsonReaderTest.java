@@ -1,4 +1,4 @@
-package utils;
+package model.utils;
 
 import model.Station;
 import model.Trail;

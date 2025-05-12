@@ -7,7 +7,6 @@ import model.Trail;
 import observer.NationalParkObserver;
 import org.openstreetmap.gui.jmapviewer.*;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
-import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
 import view.util.ColorPalette;
 
 import javax.swing.*;
