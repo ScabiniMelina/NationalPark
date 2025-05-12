@@ -39,9 +39,8 @@ class NationalParkGraphTest {
 
     @Test
     void testCalculateTotalImpact() {
-        //When
         NationalParkGraph graph = new NationalParkGraph(stations, trails);
-        //Then
+
         assertEquals(214, graph.getTotalImpact());
     }
 
@@ -64,10 +63,9 @@ class NationalParkGraphTest {
 
     @Test
     void testGetExecutionTimeInNanoseconds(){
-        //When
+
         long executionTime = graph.getExecutionTimeInNanoseconds();
-        //Then
-        assertEquals( 0L, executionTime, "The execution time should be 0");
+        assertEquals( 0, executionTime, "The execution time should be 0");
     }
 
     @Test

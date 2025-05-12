@@ -41,12 +41,6 @@ public class NationalParkGraphPrim extends NationalParkGraph {
 
     }
 
-    private long measureExecutionTime(Runnable task) {
-        long startTime = System.nanoTime();
-        task.run();
-        return System.nanoTime() - startTime;
-    }
-
     private Trail getMinimumTrail(List<Station> treeStations) {
         Trail minTrail = null;
         for (Station station: treeStations){
