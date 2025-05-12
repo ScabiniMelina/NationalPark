@@ -4,30 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NationalParkGraphPrim extends NationalParkGraph {
-    List<Trail> treeTrails;
+    List<Trail> minimumSpanningTreeTrails;
 
     public NationalParkGraphPrim(List<Station> stations, List<Trail> trails) {
         super(stations, trails);
-        this.treeTrails = new ArrayList<>();
+        this.minimumSpanningTreeTrails = new ArrayList<>();
     }
 
     @Override
     public List<Trail> getTrails(){
-        return this.treeTrails;
+        return this.minimumSpanningTreeTrails;
     }
 
     @Override
     public void calculateMinimumSpanningTree() {
         long startTime = System.nanoTime();
         List<Station> treeStations = new ArrayList<>();
-        treeTrails.clear();
+        minimumSpanningTreeTrails.clear();
 
         treeStations.add(stations.getFirst());
         int stationsSize = stations.size();
         for (int i = 1; i <= stationsSize-1; i++){
             Trail minTrail = getMinimumTrail(treeStations);
             if (minTrail == null) break;
-            treeTrails.add(minTrail);
+            minimumSpanningTreeTrails.add(minTrail);
             if (!treeStations.contains(minTrail.getStart())) {
                 treeStations.add(minTrail.getStart());
             } else {
@@ -39,6 +39,12 @@ public class NationalParkGraphPrim extends NationalParkGraph {
         calculateTotalImpact();
         super.notifyObservers();
 
+    }
+
+    private long measureExecutionTime(Runnable task) {
+        long startTime = System.nanoTime();
+        task.run();
+        return System.nanoTime() - startTime;
     }
 
     private Trail getMinimumTrail(List<Station> treeStations) {
@@ -64,13 +70,13 @@ public class NationalParkGraphPrim extends NationalParkGraph {
 
     @Override
     public void calculateTotalImpact() {
-        if (treeTrails == null || treeTrails.isEmpty()) {
+        if (minimumSpanningTreeTrails == null || minimumSpanningTreeTrails.isEmpty()) {
             totalImpact = 0;
             return;
         }
 
         int sum = 0;
-        for (Trail trail : treeTrails) {
+        for (Trail trail : minimumSpanningTreeTrails) {
             sum += trail.getEnvironmentalImpact();
         }
         totalImpact =  sum;
