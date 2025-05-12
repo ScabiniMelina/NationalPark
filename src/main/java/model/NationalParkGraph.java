@@ -1,12 +1,13 @@
 package model;
 
+import model.util.UnionFind;
 import observer.NationalParkObserver;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NationalParkGraph {
-    long executionTimeInNanoseconds = 0; //TODO: ESTA BIEN QUE ESTO ESTE ACA? DELEGACION?
+    long executionTimeInNanoseconds = 0;
     protected List<Station> stations;
     protected List<Trail> trails;
     int totalImpact;
@@ -19,9 +20,13 @@ public class NationalParkGraph {
         if (trails == null ) {
             throw new IllegalArgumentException("Trails cannot be null");
         }
-        this.stations = new ArrayList<>(stations);
-        this.trails = new ArrayList<>(trails);
-        calculateTotalImpact();
+        if (isConnectedUnionFind(stations, trails)){
+            this.stations = new ArrayList<>(stations);
+            this.trails = new ArrayList<>(trails);
+            calculateTotalImpact();
+        } else {
+            throw new RuntimeException("The graph is not connected. Minimum spanning tree cannot be fully constructed.");
+        }
     }
 
     public void addObserver(NationalParkObserver observer) {
@@ -71,5 +76,20 @@ public class NationalParkGraph {
             sum += trail.getEnvironmentalImpact();
         }
         totalImpact =  sum;
+    }
+
+    public boolean isConnectedUnionFind(List<Station> stations, List<Trail> trails) {
+        UnionFind<Station> uf = new UnionFind<>();
+        for (Station s : stations) uf.add(s);
+
+        for (Trail t : trails) {
+            uf.union(t.getStart(), t.getEnd());
+        }
+
+        Station root = uf.find(stations.get(0));
+        for (Station s : stations) {
+            if (!uf.find(s).equals(root)) return false;
+        }
+        return true;
     }
 }
